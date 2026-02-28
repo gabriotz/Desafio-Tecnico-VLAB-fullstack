@@ -1,7 +1,12 @@
 from sqlalchemy.ext.asyncio import AsyncSession
 from fastapi import HTTPException, status
 from repositories.resource_repository import ResourceRepository
-from schemas.resource import ResourceCreate, ResourceUpdate, ResourceOut, PaginatedResources
+from schemas.resource import (
+    ResourceCreate,
+    ResourceUpdate,
+    ResourceOut,
+    PaginatedResources,
+)
 
 
 class ResourceService:
@@ -21,7 +26,7 @@ class ResourceService:
             total=total,
             page=page,
             size=size,
-    )
+        )
 
     async def get_by_id(self, resource_id: int) -> ResourceOut:
         resource = await self.repository.get_by_id(resource_id)

@@ -2,7 +2,12 @@ from fastapi import APIRouter, Depends, status, Query
 from sqlalchemy.ext.asyncio import AsyncSession
 from models.base import get_db
 from services.resource import ResourceService
-from schemas.resource import ResourceCreate, ResourceUpdate, ResourceOut, PaginatedResources
+from schemas.resource import (
+    ResourceCreate,
+    ResourceUpdate,
+    ResourceOut,
+    PaginatedResources,
+)
 from typing import Literal
 
 router = APIRouter(prefix="/resources", tags=["Resources"])
