@@ -20,18 +20,26 @@ class ResourceRepository:
         size: int,
         order_by: str = "created_at",
         order_dir: str = "desc",
+        search: str | None = None,
     ) -> tuple[list[Resource], int]:
         offset = (page - 1) * size
+
+        query = select(Resource)
+        count_query = select(func.count(Resource.id))
+
+        if search:
+            query = query.where(Resource.title.ilike(f"%{search}%"))
+            count_query = count_query.where(Resource.title.ilike(f"%{search}%"))
 
         sort_column = SORT_FIELDS.get(order_by, Resource.created_at)
         sort_order = desc(sort_column) if order_dir == "desc" else asc(sort_column)
 
         result = await self.db.execute(
-            select(Resource).order_by(sort_order).offset(offset).limit(size)
+            query.order_by(sort_order).offset(offset).limit(size)
         )
         items = result.scalars().all()
 
-        total_result = await self.db.execute(select(func.count(Resource.id)))
+        total_result = await self.db.execute(count_query)
         total = total_result.scalar()
 
         return items, total

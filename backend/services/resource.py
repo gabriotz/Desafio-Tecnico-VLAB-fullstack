@@ -19,8 +19,11 @@ class ResourceService:
         size: int,
         order_by: str = "created_at",
         order_dir: str = "desc",
+        search: str | None = None,
     ) -> PaginatedResources:
-        items, total = await self.repository.get_all(page, size, order_by, order_dir)
+        items, total = await self.repository.get_all(
+            page, size, order_by, order_dir, search
+        )
         return PaginatedResources(
             items=[ResourceOut.model_validate(item) for item in items],
             total=total,
