@@ -23,9 +23,10 @@ async def list_resources(
     size: int = Query(default=10, ge=1, le=50),
     order_by: Literal["title", "type", "created_at"] = Query(default="created_at"),
     order_dir: Literal["asc", "desc"] = Query(default="desc"),
+    search: str | None = Query(default=None),
     service: ResourceService = Depends(get_resource_service),
 ):
-    return await service.get_all(page, size, order_by, order_dir)
+    return await service.get_all(page, size, order_by, order_dir, search)
 
 
 @router.get("/{resource_id}", response_model=ResourceOut)
