@@ -21,14 +21,14 @@ class ResourceService:
         order_dir: str = "desc",
         search: str | None = None,
     ) -> PaginatedResources:
-    items, total = await self.repository.get_all(page, size, order_by, order_dir, search)
-    return PaginatedResources(
+        items, total = await self.repository.get_all(page, size, order_by, order_dir, search)
+        return PaginatedResources(
         items=[ResourceOut.model_validate(item) for item in items],
         total=total,
         page=page,
         size=size,
     )
-    
+
     async def get_by_id(self, resource_id: int) -> ResourceOut:
         resource = await self.repository.get_by_id(resource_id)
         if not resource:
