@@ -13,6 +13,7 @@ SORT_FIELDS = {
 class ResourceRepository:
     def __init__(self, db: AsyncSession):
         self.db = db
+
     async def get_all(
         self,
         page: int,
