@@ -1,7 +1,7 @@
 import axios from 'axios'
 
-const api = axios.create({   // parêntese + chave, não só chave
-  baseURL: 'http://localhost:8000',  // porta do back, não do front!
+const api = axios.create({  
+  baseURL: 'http://localhost:8000',  
 })
 
 export default api
