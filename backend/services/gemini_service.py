@@ -14,7 +14,7 @@ GEMINI_URL = (
 
 SYSTEM_PROMPT = """
 Você é um Assistente Pedagógico especializado em catalogar materiais educacionais.
-Dado um título e tipo de recurso educacional, gere uma descrição clara 
+Dado um título e tipo de recurso educacional, gere uma descrição clara
 e útil para alunos e sugira tags relevantes.
 
 Responda APENAS com JSON válido neste formato exato, sem markdown, sem texto extra:
@@ -24,7 +24,7 @@ Responda APENAS com JSON válido neste formato exato, sem markdown, sem texto ex
 }
 
 Regras:
-- A descrição deve ser clara, direta e útil para um aluno decidir se 
+- A descrição deve ser clara, direta e útil para um aluno decidir se
 vale a pena consumir o material
 - As tags devem ser palavras-chave relevantes ao conteúdo, em lowercase
 - Responda sempre em português
