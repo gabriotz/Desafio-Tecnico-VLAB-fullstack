@@ -1,6 +1,9 @@
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from api.v1.endpoints.ai import router as ai_router
+from core.logging import setup_logging
+
 from models.base import engine, Base
 from api.v1.endpoints.resources import router as resources_router
 
@@ -12,6 +15,8 @@ async def lifespan(app: FastAPI):
     yield
     await engine.dispose()
 
+
+setup_logging()
 
 app = FastAPI(
     title="Hub Educacional API",
@@ -28,6 +33,7 @@ app.add_middleware(
 )
 
 app.include_router(resources_router, prefix="/api")
+app.include_router(ai_router, prefix="/api")
 
 
 @app.get("/health")
