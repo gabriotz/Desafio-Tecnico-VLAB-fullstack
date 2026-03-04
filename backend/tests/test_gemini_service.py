@@ -1,4 +1,3 @@
-import pytest
 from unittest.mock import patch, AsyncMock, MagicMock
 from services.gemini_service import generate_ai_suggestion
 
@@ -11,7 +10,8 @@ async def test_generate_ai_suggestion():
                 "content": {
                     "parts": [
                         {
-                            "text": '{"description": "Test description", "tags": ["tag1", "tag2", "tag3"]}'
+                            "text": '{"description": "Test description",'
+                            ' "tags": ["tag1", "tag2", "tag3"]}'
                         }
                     ]
                 }
