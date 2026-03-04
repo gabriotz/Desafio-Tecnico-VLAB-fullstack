@@ -1,6 +1,6 @@
 import pytest
 from httpx import AsyncClient, ASGITransport
-from unittest.mock import patch, AsyncMock
+from unittest.mock import patch, AsyncMock, MagicMock
 from main import app
 
 
@@ -16,42 +16,55 @@ async def test_health_check():
 
 @pytest.mark.asyncio
 async def test_create_resource():
-    async with AsyncClient(
-        transport=ASGITransport(app=app), base_url="http://test"
-    ) as client:
-        response = await client.post(
-            "/api/resources/",
-            json={
-                "title": "Test Resource",
-                "type": "Video",
-                "url": "https://test.com",
-                "description": "Test description",
-                "tags": ["test"],
-            },
-        )
+    with patch(
+        "repositories.resource_repository.ResourceRepository.create",
+        new_callable=AsyncMock,
+        return_value=MagicMock(
+            id=1,
+            title="Test Resource",
+            type="Video",
+            url="https://test.com",
+            description="Test description",
+            tags=["test"],
+            created_at="2024-01-01T00:00:00",
+        ),
+    ):
+        async with AsyncClient(
+            transport=ASGITransport(app=app), base_url="http://test"
+        ) as client:
+            response = await client.post(
+                "/api/resources/",
+                json={
+                    "title": "Test Resource",
+                    "type": "Video",
+                    "url": "https://test.com",
+                    "description": "Test description",
+                    "tags": ["test"],
+                },
+            )
     assert response.status_code == 201
     assert response.json()["title"] == "Test Resource"
 
 
 @pytest.mark.asyncio
 async def test_list_resources():
-    # Mock the repository to avoid real DB connection issues across event loops
-    mock_items = [
-        {
-            "id": "1",
-            "title": "Test Resource",
-            "type": "Video",
-            "url": "https://test.com",
-            "description": "Test description",
-            "tags": ["test"],
-            "created_at": "2024-01-01T00:00:00",
-        }
-    ]
-
     with patch(
         "repositories.resource_repository.ResourceRepository.get_all",
         new_callable=AsyncMock,
-        return_value=(mock_items, 1),
+        return_value=(
+            [
+                MagicMock(
+                    id=1,
+                    title="Test Resource",
+                    type="Video",
+                    url="https://test.com",
+                    description="Test description",
+                    tags=["test"],
+                    created_at="2024-01-01T00:00:00",
+                )
+            ],
+            1,
+        ),
     ):
         async with AsyncClient(
             transport=ASGITransport(app=app), base_url="http://test"
