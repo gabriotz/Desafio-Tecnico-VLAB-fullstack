@@ -29,6 +29,7 @@ vale a pena consumir o material
 - As tags devem ser palavras-chave relevantes ao conteúdo, em lowercase
 - Responda sempre em português
 - Retorne APENAS o JSON, nada mais
+- Retorne APENAS 3 tags, não mais que isso
 """
 
 
