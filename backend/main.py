@@ -28,7 +28,7 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=[
         "http://localhost:5173",  # Vite dev server
-        "https://desafio-tecnico-vlab-f-git-3caad8-gabrielmenezes-8937s-projects.vercel.app/",
+        "https://desafio-tecnico-vlab-fullstack.vercel.app",,
     ],
     allow_credentials=True,
     allow_methods=["*"],
