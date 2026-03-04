@@ -6,14 +6,18 @@ from services.gemini_service import generate_ai_suggestion
 async def test_generate_ai_suggestion():
     mock_response = MagicMock()
     mock_response.json.return_value = {
-        "candidates": [{
-            "content": {
-                "parts": [{
-                    "text": '{"description": "Test description", "tags": ["tag1", "tag2", "tag3"]}'
-                }]
+        "candidates": [
+            {
+                "content": {
+                    "parts": [
+                        {
+                            "text": '{"description": "Test description", "tags": ["tag1", "tag2", "tag3"]}'
+                        }
+                    ]
+                }
             }
-        }],
-        "usageMetadata": {"totalTokenCount": 100}
+        ],
+        "usageMetadata": {"totalTokenCount": 100},
     }
     mock_response.raise_for_status = MagicMock()
 
