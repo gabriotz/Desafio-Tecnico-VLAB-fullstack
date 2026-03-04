@@ -57,7 +57,14 @@ async def generate_ai_suggestion(title: str, resource_type: str) -> dict:
 
     raw_text = data["candidates"][0]["content"]["parts"][0]["text"]
     logger.info(f"Raw response: {raw_text!r}")
-    result = json.loads(raw_text.strip())
+    clean = (
+        raw_text.strip()
+        .removeprefix("```json")
+        .removeprefix("```")
+        .removesuffix("```")
+        .strip()
+    )
+    result = json.loads(clean)
 
     token_usage = data.get("usageMetadata", {}).get("totalTokenCount", 0)
     logger.info(
