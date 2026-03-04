@@ -11,7 +11,7 @@ class Resource(Base):
     title: Mapped[str] = mapped_column(String(255), nullable=False)
     description: Mapped[str | None] = mapped_column(Text, nullable=True)
     type: Mapped[str] = mapped_column(String(50), nullable=False)  # Video, PDF, Link
-    url: Mapped[str] = mapped_column(String(500), nullable=False)
+    url: Mapped[str] = mapped_column(String(3000), nullable=False)
     tags: Mapped[list[str]] = mapped_column(ARRAY(String), default=[])
     created_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True),

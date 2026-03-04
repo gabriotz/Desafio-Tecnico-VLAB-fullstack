@@ -38,7 +38,7 @@ async def generate_ai_suggestion(title: str, resource_type: str) -> dict:
         "contents": [{"parts": [{"text": f"Título: {title}\nTipo: {resource_type}"}]}],
         "generationConfig": {
             "temperature": 0.7,
-            "maxOutputTokens": 300,
+            "maxOutputTokens": 1024,
         },
     }
 
@@ -56,6 +56,7 @@ async def generate_ai_suggestion(title: str, resource_type: str) -> dict:
     data = response.json()
 
     raw_text = data["candidates"][0]["content"]["parts"][0]["text"]
+    logger.info(f"Raw response: {raw_text!r}")
     result = json.loads(raw_text.strip())
 
     token_usage = data.get("usageMetadata", {}).get("totalTokenCount", 0)
