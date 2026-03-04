@@ -1,10 +1,13 @@
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine, async_sessionmaker
 from sqlalchemy.orm import DeclarativeBase
 from core.config import settings
+import os
+
+ssl_args = {"ssl": "require"} if os.getenv("ENVIRONMENT") == "production" else {}
 
 engine = create_async_engine(
     settings.DATABASE_URL,
-    connect_args={"ssl": "require"},
+    connect_args=ssl_args,
     echo=settings.ENVIRONMENT == "development",
 )
 
