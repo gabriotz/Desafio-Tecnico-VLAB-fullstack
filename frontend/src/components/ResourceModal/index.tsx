@@ -15,6 +15,8 @@ import { Dialog,
         DialogTitle,
         DialogFooter,
  } from "@/components/ui/dialog"
+import { generateAISuggestion } from "@/services/resources"
+import { Loader2, Sparkles } from "lucide-react"
 
 interface ResourceModalProps {
     isOpen: boolean
@@ -32,6 +34,8 @@ export function ResourceModal({isOpen, onClose, resource = null, onSubmit}: Reso
     const [tags, setTags] = useState<string[]>(resource?.tags ?? [])
 
     const [tagInput, setTagInput] = useState("")
+    const [aiLoading, setAiLoading] = useState(false)
+    const [aiError, setAiError] = useState(false)
 
     const handleAddTag = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter" && tagInput.trim()) {
@@ -61,6 +65,21 @@ export function ResourceModal({isOpen, onClose, resource = null, onSubmit}: Reso
             setTags([])
         }
     }, [resource,isOpen])
+
+    const handleAIGenerate = async () => {
+        if (!title.trim() || !type) return
+            setAiLoading(true)
+            setAiError(false)
+        try {
+            const result = await generateAISuggestion(title, type)
+            setDescription(result.description)
+            setTags(result.tags)
+        } catch {
+            setAiError(true)
+        } finally {
+            setAiLoading(false)
+        }
+        }
 return (
     <Dialog open={isOpen} onOpenChange={onClose}>
         <DialogContent className="sm:max-w-[520px]">
@@ -95,12 +114,31 @@ return (
                     </SelectContent>
                 </Select>
                 
-                <Button 
-                type="button"
-                variant="outline"
-                className="bg-gray-200 w-full flex justify-center ">
-                    Gere com IA 
+                <Button
+                    type="button"
+                    variant="outline"
+                    onClick={handleAIGenerate}
+                    disabled={aiLoading || !title.trim()}
+                    className="bg-gray-200 w-full flex justify-center gap-2"
+                    >
+                    {aiLoading ? (
+                        <>
+                        <Loader2 className="w-4 h-4 animate-spin" />
+                        Gerando...
+                        </>
+                    ) : (
+                        <>
+                        <Sparkles className="w-4 h-4" />
+                        ✨ Gerar com IA
+                        </>
+                    )}
                 </Button>
+
+                    {aiError && (
+                    <p className="text-red-500 text-sm text-center">
+                        Falha ao gerar. Tente novamente.
+                    </p>
+                    )}
 
                 <p>URL*</p>
                 <Input 
