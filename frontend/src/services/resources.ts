@@ -34,3 +34,8 @@ export const updateResource = async (id: number, data: ResourceUpdate): Promise<
 export const deleteResource = async (id: number): Promise<void> => {
   await api.delete(`/api/resources/${id}`)
 }
+
+export const generateAISuggestion = async (title: string, type: string) => {
+  const response = await api.post('/api/ai/suggest', { title, type })
+  return response.data
+}
