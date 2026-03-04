@@ -14,7 +14,7 @@ Aplicação Fullstack para gerenciamento de materiais didáticos com geração a
 
 ## 🎬 Demonstração
 
-![Demo do Hub Educacional](docs/assets/demo.mp4)
+![Demo do Hub Educacional](docs/assets/demo.gif)
 
 > Fluxo completo: listagem com paginação → cadastro com **Smart Assist** (IA gerando descrição e tags) → busca por título.
 
