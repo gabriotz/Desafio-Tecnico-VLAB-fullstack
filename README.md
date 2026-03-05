@@ -203,10 +203,11 @@ cp backend/.env.example backend/.env
 Preencha os valores:
 
 ```env
-DATABASE_URL=postgresql+asyncpg://user:password@host:5432/dbname
+DATABASE_URL=postgresql+asyncpg://postgres:postgres@db:5432/appdb 
 GEMINI_API_KEY=sua_chave_aqui
 ENVIRONMENT=development
 ```
+(Para a acesso do DB dockerizado use = DATABASE_URL=postgresql+asyncpg://postgres:postgres@db:5432/appdb)
 
 > Obtenha sua chave gratuita do Gemini em [aistudio.google.com](https://aistudio.google.com)
 
