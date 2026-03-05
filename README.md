@@ -12,6 +12,15 @@ Aplicação Fullstack para gerenciamento de materiais didáticos com geração a
 
 ---
 
+## 🌐 Deploy
+
+| Serviço | URL |
+|---------|-----|
+| 🖥️ Frontend (Vercel) | [desafio-tecnico-vlab-fullstack.vercel.app](https://desafio-tecnico-vlab-fullstack.vercel.app/) |
+| ⚙️ Backend (Render) | API REST + PostgreSQL hospedados no Render |
+
+---
+
 ## 🎬 Demonstração
 
 <img src="docs/assets/demo.gif" width="100%" alt="Demo do Hub Educacional"/>
@@ -53,6 +62,7 @@ O Hub Educacional é um repositório centralizado para materiais de aprendizagem
 - ✅ Endpoint de Health Check
 - ✅ GitHub Actions CI com lint e testes automatizados
 - ✅ Docker Compose para desenvolvimento local
+- ✅ Deploy em produção — Frontend no Vercel, Backend e PostgreSQL no Render
 
 ---
 
@@ -77,7 +87,8 @@ O Hub Educacional é um repositório centralizado para materiais de aprendizagem
 **DevOps**
 - Docker + Docker Compose
 - GitHub Actions CI (black, flake8, eslint, pytest)
-- Render (PostgreSQL na nuvem)
+- Vercel (Frontend)
+- Render (Backend + PostgreSQL)
 
 ---
 
@@ -128,15 +139,15 @@ frontend/
 ### Fluxo de dados
 
 ```
-Frontend (React)
+Frontend (React) — Vercel
      │
      ▼
-API REST (FastAPI)
+API REST (FastAPI) — Render
      │
      ├──▶ Repository Layer (SQLAlchemy async)
      │         │
      │         ▼
-     │    PostgreSQL 16
+     │    PostgreSQL 16 — Render
      │
      └──▶ Service Layer
                │
@@ -159,6 +170,9 @@ Latência menor que modelos maiores para uma tarefa focada (geração de descri�
 
 **Por que Pydantic v2?**
 Validação de entrada e saída tipada em todas as rotas, com serialização ~5x mais rápida que a v1 graças ao core em Rust.
+
+**Por que Vercel + Render?**
+Vercel oferece deploy automático do frontend a cada push com CDN global. Render oferece deploy simplificado do backend Python com PostgreSQL gerenciado, sem necessidade de configurar infraestrutura.
 
 ---
 
@@ -200,7 +214,7 @@ ENVIRONMENT=development
 
 ## Rodando com Docker
 
-A forma mais simples de rodar o projeto completo:
+A forma mais simples de rodar o projeto completo localmente:
 
 ```bash
 docker-compose up --build
@@ -233,7 +247,7 @@ pip install -r requirements.txt
 uvicorn main:app --reload
 ```
 
-API disponível em: `http://localhost:8000`  
+API disponível em: `http://localhost:8000`
 Documentação Swagger: `http://localhost:8000/docs`
 
 ### Frontend
@@ -267,9 +281,9 @@ pytest tests/ -v
 | Teste | Descrição |
 |-------|-----------|
 | `test_health_check` | GET /health retorna 200 |
-| `test_create_resource` | POST /api/resources/ cria um recurso |
-| `test_list_resources` | GET /api/resources/ retorna lista paginada |
-| `test_generate_ai_suggestion` | Serviço Gemini retorna descrição e tags (mockado) |
+| `test_create_resource` | POST /api/resources/ cria um recurso (mock) |
+| `test_list_resources` | GET /api/resources/ retorna lista paginada (mock) |
+| `test_generate_ai_suggestion` | Serviço Gemini retorna descrição e tags (mock) |
 
 ---
 
